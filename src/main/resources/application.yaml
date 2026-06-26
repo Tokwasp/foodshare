@@ -1,0 +1,79 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3307/foodService
+    username: foodservice
+    password: foodservice1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  # 파일 업로드 한도 (기본 1MB → 일반 사진 업로드를 위해 확대)
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 30MB
+
+# Redis 설정
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6380}
+      password: ${REDIS_PASSWORD:}
+
+# 메일 설정
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+# Gemini API 설정
+gemini:
+  api-url: ${GEMINI_API_URL}
+  api-key: ${GEMINI_API_KEY}
+
+# GMS 설정
+gms:
+  key: ${GMS_KEY}
+
+# Claude API 설정
+claude:
+  api-key: ${CLAUDE_API_KEY}
+
+# 소비기한 분석 클라이언트 선택 (gemini | claude), 기본값: claude
+expiration:
+  client: claude
+
+# 프론트엔드(CORS) / 세션 쿠키 설정
+app:
+  cors:
+    # 콤마로 구분. 운영 도메인 + Vercel 프리뷰 + Manus 배포 + 로컬 개발 서버. 환경변수 CORS_ALLOWED_ORIGINS로 덮어쓰기 가능
+    allowed-origin-patterns: ${CORS_ALLOWED_ORIGINS:https://foodsharedservice-fe.vercel.app,https://*.vercel.app,https://foodshare-x9qcmjhk.manus.space,https://*.manus.space,http://localhost:3000,http://localhost:5173}
+  cookie:
+    # cross-site 세션 쿠키: 기본 None+Secure(HTTPS). 로컬 http 개발은 COOKIE_SAME_SITE=Lax, COOKIE_SECURE=false
+    same-site: ${COOKIE_SAME_SITE:None}
+    secure: ${COOKIE_SECURE:true}
+
+# AWS S3 설정 (prod 프로파일에서만 사용)
+cloud:
+  aws:
+    region: ${AWS_REGION:ap-northeast-2}
+    s3:
+      bucket: ${AWS_S3_BUCKET:food-share-images}
