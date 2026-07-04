@@ -46,6 +46,10 @@ food.http
 rest-api.http
 scrat
 
+### 대용량 영상 (저장소에 올리지 않음 — GitHub 100MB 제한 초과, 외부 호스팅) ###
+images/*.mp4
+images/*.mov
+
 ### Claude (.claude 문서/스킬은 추적, 로컬 파일은 계속 무시) ###
 !.claude/commands/
 !.claude/docs/
