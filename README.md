@@ -53,6 +53,7 @@ Food-Share는 음식을 나눔할 때 **소비기한 사진을 AI가 인식**해
 - **API 명세**: [`CLAUDE.md`](./CLAUDE.md) — 전체 REST/WebSocket API 명세 (v3)
 - **채팅 아키텍처**: [`.claude/docs/chat/docs.md`](./.claude/docs/chat/docs.md)
 - **트러블슈팅 노트**: [`.claude/troubleshooting/`](./.claude/troubleshooting)
+  - [짧은 기간을 버티기 위한 AI 자동화 (PR 리뷰·작업 요약)](./.claude/troubleshooting/AI-automation.md)
   - [채팅 다중 인스턴스 세션 불일치와 Redis Pub/Sub 선택](./.claude/troubleshooting/chat-session-mismatch.md)
   - [이메일 전송에 트랜잭션을 적용하지 않은 이유](./.claude/troubleshooting/email-send-no-transaction.md)
   - [이메일 전송 타임아웃(5초) 검증 방법](./.claude/troubleshooting/email-send-timeout-test.md)
