@@ -45,3 +45,11 @@ http-client.env.json
 food.http
 rest-api.http
 scrat
+
+### Claude (.claude 문서/스킬은 추적, 로컬 파일은 계속 무시) ###
+!.claude/commands/
+!.claude/docs/
+!.claude/skills/
+!.claude/troubleshooting/
+!.claude/**/*.md
+!.claude/**/*.png
