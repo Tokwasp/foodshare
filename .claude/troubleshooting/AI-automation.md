@@ -1,4 +1,4 @@
-# 짧은 기간을 버티기 위한 AI 자동화 (PR 리뷰 · 작업 요약)
+## 개발 효율을 늘리기 위한 PR리뷰, 작업 요약 자동화
 
 > 관련: [`.github/workflows/claude-code-review.yml`](https://github.com/Tokwasp/foodshare/blob/master/.github/workflows/claude-code-review.yml)
 >
