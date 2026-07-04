@@ -2,14 +2,6 @@
 
 > 남는 가공·미개봉 식품을 이웃과 나누되, **소비기한을 AI로 인식**해 안전하게 나누는 서비스입니다.
 
-<p>
-  <img src="https://img.shields.io/badge/Java-17-007396?logo=openjdk&logoColor=white">
-  <img src="https://img.shields.io/badge/Spring%20Boot-4.0.6-6DB33F?logo=springboot&logoColor=white">
-  <img src="https://img.shields.io/badge/MySQL-RDS-4479A1?logo=mysql&logoColor=white">
-  <img src="https://img.shields.io/badge/Redis-Session%20%26%20Pub%2FSub-DC382D?logo=redis&logoColor=white">
-  <img src="https://img.shields.io/badge/AWS-ECS%20%7C%20S3%20%7C%20ALB-FF9900?logo=amazonaws&logoColor=white">
-</p>
-
 ---
 
 ## 📌 기획 배경
@@ -22,17 +14,23 @@ Food-Share는 음식을 나눔할 때 **소비기한 사진을 AI가 인식**해
 
 ---
 
-## ✨ 주요 기능
+## 🛠️ 기술 스택
 
-| 기능 | 설명 |
-|------|------|
-| 🔐 **회원** | 이메일 인증 기반 회원가입, 로그인(Spring Session + Redis 세션 쿠키), 회원 정보 관리 |
-| 🤖 **GMS 소비기한 인식** | 소비기한 사진을 업로드하면 **생성형 AI(Gemini / Claude)** 가 소비기한 날짜(`yyyy-MM-dd`)를 인식 |
-| 🍱 **음식 나눔 물품** | 물품 등록(소비기한·물품 사진), 목록/상세 조회, 수정/삭제, 소비기한 만료 배치 |
-| 🤝 **나눔 요청** | 물품에 나눔 요청 → 등록자가 수락/거절, 정원 충족 시 자동 완료 처리 |
-| 💬 **채팅** | 등록자 ↔ 요청자 **1:1 실시간 채팅**(WebSocket/STOMP + Redis Pub/Sub 팬아웃), 안읽음 수·양방향 커서 이력 |
+**Frontend** ([FE 저장소](https://github.com/foodsharedservice/foodsharedservice_FE))
+- Next.js 14 (App Router), React 18, JavaScript
+- Custom CSS (design tokens), Pretendard
+- Vercel 배포
 
-> AI는 `ExpirationApiClient` 인터페이스로 추상화되어 있으며, `expiration.client` 속성으로 **Gemini/Claude 구현을 교체**할 수 있습니다.
+**Backend**
+- Java 17, Spring Boot 4.0.6
+- Spring Data JPA, MySQL / H2(test)
+- Redis (Spring Session, Pub/Sub), WebSocket + STOMP
+- Spring Security Crypto (비밀번호 해싱), Spring Mail (이메일 인증)
+- 생성형 AI (Gemini / Claude) — 소비기한 인식
+
+**Infra**
+- AWS ECS, ALB, Route53, RDS(MySQL), S3, Redis
+- Docker
 
 ---
 
@@ -46,35 +44,46 @@ Food-Share는 음식을 나눔할 때 **소비기한 사진을 AI가 인식**해
 - **External API**: 소비기한 분석(AI), 메일 발송
 - 전체 리소스는 AWS **VPC** 내에 구성
 
-> ⚠️ AWS에 배포했었으나 현재는 비용 문제로 **내려둔 상태**입니다. (아래 로컬 실행으로 구동 가능)
+> ⚠️ AWS에 배포했었으나 현재는 비용 문제로 **내려둔 상태**입니다.
+
+---
+
+## 📄 트러블슈팅 / 문서
+
+- **API 명세**: [`CLAUDE.md`](./CLAUDE.md) — 전체 REST/WebSocket API 명세 (v3)
+- **채팅 아키텍처**: [`.claude/docs/chat/docs.md`](./.claude/docs/chat/docs.md)
+- **트러블슈팅 노트**: [`.claude/troubleshooting/`](./.claude/troubleshooting)
+  - [채팅 다중 인스턴스 세션 불일치와 Redis Pub/Sub 선택](./.claude/troubleshooting/chat-session-mismatch.md)
+  - [이메일 전송에 트랜잭션을 적용하지 않은 이유](./.claude/troubleshooting/email-send-no-transaction.md)
+  - [이메일 전송 타임아웃(5초) 검증 방법](./.claude/troubleshooting/email-send-timeout-test.md)
+
+---
+
+## 주요 기능
+
+- **회원** — 이메일 인증 회원가입, 세션 로그인(Redis), 회원 정보 관리
+- **소비기한 인식(GMS)** — 사진 업로드 시 생성형 AI(Gemini / Claude)가 소비기한 인식
+- **나눔 물품** — 물품 등록/조회/수정/삭제, 소비기한 만료 배치
+- **나눔 요청** — 요청 → 등록자 수락/거절, 정원 충족 시 완료 처리
+- **채팅** — 등록자 ↔ 요청자 1:1 실시간 채팅(WebSocket/STOMP + Redis Pub/Sub), 안읽음 수·양방향 커서 이력
 
 ---
 
 ## 🎬 시연 영상
 
-> 시연 영상은 용량(약 262MB)이 커 GitHub 저장소에 직접 포함하지 않습니다. 외부 링크로 대체합니다.
-
-▶️ **시연 영상 보기** — _링크 추가 예정_ <!-- TODO: YouTube/Drive 등 외부 링크 삽입 -->
-
-<!-- 참고: GitHub README에 영상을 인라인 재생하려면, 편집 화면(Edit)에 mp4를 드래그&드롭해
-     생성되는 https://github.com/user-attachments/assets/... URL을 넣으면 됩니다. (100MB 이하 파일만 가능) -->
-
+▶️ **[시연 영상 보기 (Google Drive)](https://drive.google.com/file/d/1RMWxMZep0eR5cXDDXmanNvZPn2WEDQmK/view?usp=sharing)**
 
 ---
 
-## 🛠️ 기술 스택
+## 👤 담당 역할
 
-| 구분 | 사용 기술 |
-|------|-----------|
-| **Language / Framework** | Java 17, Spring Boot 4.0.6 |
-| **Persistence** | Spring Data JPA, MySQL(운영) / H2(테스트) |
-| **Cache / Session / Realtime** | Redis (Spring Session, Pub/Sub) |
-| **Realtime** | WebSocket + STOMP |
-| **Auth** | Spring Session 세션 쿠키, Spring Security Crypto(비밀번호 해싱) |
-| **Storage** | AWS S3 (AWS SDK v2) |
-| **AI** | 생성형 AI(Gemini / Claude) — 소비기한 인식 |
-| **Mail** | Spring Boot Starter Mail (이메일 인증) |
-| **Infra** | AWS ECS, ALB, Route53, RDS, S3 / Vercel(FE) |
+**백엔드 2명**으로 진행했으며, 그중 아래 영역을 담당했습니다.
+
+- **Frontend** — 화면 구현
+- **Backend** — **회원(member)**, **채팅(chat)** 도메인
+- **Infra** — AWS(ECS/ALB/Route53/RDS/S3/Redis) 인프라 구성 및 배포
+
+> 프로젝트 기간: **약 2주** · 팀 구성: **백엔드 2명**
 
 ---
 
@@ -92,69 +101,3 @@ com.foodservice
 ```
 
 각 도메인은 `controller · service · repository · entity · dto` 로 구성된 **도메인 중심 패키지 구조**를 따릅니다.
-
----
-
-## 👤 담당 역할
-
-**백엔드 2명**으로 진행했으며, 그중 아래 영역을 담당했습니다.
-
-- **Frontend** — 화면 구현
-- **Backend** — **회원(member)**, **채팅(chat)** 도메인
-- **Infra** — AWS(ECS/ALB/Route53/RDS/S3/Redis) 인프라 구성 및 배포
-
-> 프로젝트 기간: **약 2주** · 팀 구성: **백엔드 2명**
-
----
-
-## 🚀 로컬 실행
-
-### 1. 사전 준비
-- JDK 17
-- Docker (MySQL·Redis 컨테이너용 — `compose.yaml` 제공)
-
-### 2. 환경 변수(`.env`)
-`spring-dotenv`로 `.env`를 읽습니다. 주요 값:
-
-```dotenv
-# DB / Redis
-REDIS_HOST=localhost
-REDIS_PORT=6379
-REDIS_PASSWORD=
-
-# AI (소비기한 인식)
-GMS_KEY=...
-GEMINI_API_URL=...
-GEMINI_API_KEY=...
-CLAUDE_API_KEY=...
-
-# Mail (이메일 인증)
-MAIL_USERNAME=...
-MAIL_PASSWORD=...
-
-# AWS S3
-AWS_REGION=...
-AWS_S3_BUCKET=...
-
-# Cookie / CORS
-COOKIE_SECURE=false
-COOKIE_SAME_SITE=Lax
-CORS_ALLOWED_ORIGINS=http://localhost:3000
-```
-
-### 3. 실행
-```bash
-docker compose up -d      # MySQL, Redis 기동
-./gradlew bootRun         # 애플리케이션 실행
-```
-
----
-
-## 📄 문서
-
-- **API 명세**: [`CLAUDE.md`](./CLAUDE.md) — 전체 REST/WebSocket API 명세 (v3)
-- **채팅 아키텍처**: [`.claude/docs/chat/docs.md`](./.claude/docs/chat/docs.md)
-- **트러블슈팅 노트**: [`.claude/troubleshooting/`](./.claude/troubleshooting)
-  - [채팅 다중 인스턴스 세션 불일치와 Redis Pub/Sub 선택](./.claude/troubleshooting/chat-session-mismatch.md)
-  - [이메일 전송에 트랜잭션을 적용하지 않은 이유](./.claude/troubleshooting/email-send-no-transaction.md)
-  - [이메일 전송 타임아웃(5초) 검증 방법](./.claude/troubleshooting/email-send-timeout-test.md)
