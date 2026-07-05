@@ -50,7 +50,7 @@ void sendVerificationCodeFailsAfterTimeout() {
 - 가짜 서버(`ServerSocket(0)` + accept 스레드)와 그 포트를 가리키는 `JavaMailSenderImpl`을 만들어 주입
 
 ---
-## 5. @Disabled로 처리 사유
+## 5. @Disabled 처리 사유
 - 테스트를 통과하려면 매번 5초를 실제로 대기 필요
 - 일반 빌드/CI에서 매번 5초씩 잡아먹는 것은 비효율적
 - 타임아웃 설정을 검증하고 싶을 때만 수동으로 사용 +  해당 내용을 문서의 의미로 남겨두고자 `@Disabled`로 표시
