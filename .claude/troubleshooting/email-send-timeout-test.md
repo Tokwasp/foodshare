@@ -25,7 +25,7 @@ mail:
 ---
 ## 3. 어떤 타임아웃이 발동하는가
 - 목적지가 `localhost`의 서버 포트라 소켓 연결 자체는 즉시 성공
-- 하지만 서버가 응답이 없기때문에 5초 후 JavaMail이 SocketTimeoutException 예외 발생하고 MailService가 MailSendException 커스텀 예외로 변환
+- 서버가 응답이 없기때문에 5초 후 JavaMail이 SocketTimeoutException 예외 발생 후 MailService가 MailSendException 커스텀 예외로 변환
 
 ---
 ## 4. 테스트 구현
