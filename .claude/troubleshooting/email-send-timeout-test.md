@@ -49,11 +49,13 @@ void sendVerificationCodeFailsAfterTimeout() {
 ```
 - 가짜 서버(`ServerSocket(0)` + accept 스레드)와 그 포트를 가리키는 `JavaMailSenderImpl`을 만들어 주입
 
-## 5. 이 테스트를 @Disabled로 둔 이유
+---
+## 5. @Disabled로 처리 사유
 - 테스트를 통과하려면 매번 5초를 실제로 대기 필요
 - 일반 빌드/CI에서 매번 5초씩 잡아먹는 것은 비효율적
 - 타임아웃 설정을 검증하고 싶을 때만 수동으로 사용 +  해당 내용을 문서의 의미로 남겨두고자 `@Disabled`로 표시
 
+---
 ## 6. 정리
 - **문제**: `mail.smtp.timeout: 5000` 설정이 실제로 동작하는지 확신할 수 없었다.
 - **아이디어**: 접속만 받고 응답하지 않는 임의 포트의 "블랙홀 서버"를 띄워, 응답 없는 SMTP 상황을 재현
