@@ -32,7 +32,7 @@
 - 즉 메일 전송 메서드에는 **롤백으로 보호해야 할 DB 쓰기 작업 자체가 존재하지 않습니다.**
 
 ---
-## 4. 결론 — 메일 전송에 트랜잭션을 적용X
+## 4. 결론 — 메일 전송에 트랜잭션 적용X
 
 ```java
 @Transactional(propagation = Propagation.NOT_SUPPORTED)
